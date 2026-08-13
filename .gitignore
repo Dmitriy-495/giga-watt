@@ -1,0 +1,28 @@
+# Go
+**/server
+**/*.exe
+**/*.test
+**/*.out
+
+# Go workspace
+go.work
+go.work.sum
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend
+node_modules/
+.nuxt/
+.output/
+dist/
