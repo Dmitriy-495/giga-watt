@@ -10,7 +10,10 @@ Giga Watt — платформа цифрового двойника предп�
 
 ## Current Iteration
 
-Iteration 000 — Bootstrap
+Iteration 001 — Foundation
+
+Iteration 000 — Bootstrap завершена, см.
+[CHECKPOINT_000-001](docs/iterations/000-bootstrap/CHECKPOINT_000-001.md).
 
 ---
 
@@ -31,7 +34,7 @@ Iteration 000 — Bootstrap
 ### Backend
 
 - Go
-- Gin
+- net/http (см. ADR-0004)
 - PostgreSQL
 - pgx
 - SQL-first

@@ -1,5 +1,6 @@
-# Go
-**/server
+# Go build artifacts
+# (только собранный бинарник в корне backend/, не исходники backend/cmd/server/)
+/backend/server
 **/*.exe
 **/*.test
 **/*.out
