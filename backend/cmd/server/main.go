@@ -12,8 +12,12 @@ import (
 
 	"github.com/Dmitriy-495/giga-watt/backend/config"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/employee"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/objectpurpose"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/objecttype"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/operationalobject"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/organization"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/position"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/staffposition"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/database"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/httpserver"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/logger"
@@ -55,6 +59,18 @@ func main() {
 
 	employeeHandler := employee.NewHandler(employee.NewRepository(db))
 	employeeHandler.RegisterRoutes(mux)
+
+	staffPositionHandler := staffposition.NewHandler(staffposition.NewRepository(db))
+	staffPositionHandler.RegisterRoutes(mux)
+
+	objectTypeHandler := objecttype.NewHandler(objecttype.NewRepository(db))
+	objectTypeHandler.RegisterRoutes(mux)
+
+	objectPurposeHandler := objectpurpose.NewHandler(objectpurpose.NewRepository(db))
+	objectPurposeHandler.RegisterRoutes(mux)
+
+	operationalObjectHandler := operationalobject.NewHandler(operationalobject.NewRepository(db))
+	operationalObjectHandler.RegisterRoutes(mux)
 
 	srv := &http.Server{
 		Addr:    ":" + cfg.HTTP.Port,

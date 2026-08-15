@@ -10,10 +10,14 @@ Giga Watt — платформа цифрового двойника предп�
 
 ## Current Iteration
 
-Iteration 001 — Foundation
+Iteration 002 (тема согласовывается)
 
-Iteration 000 — Bootstrap завершена, см.
-[CHECKPOINT_000-001](docs/iterations/000-bootstrap/CHECKPOINT_000-001.md).
+Завершённые итерации:
+
+- Iteration 000 — Bootstrap, см.
+  [CHECKPOINT_000-001](docs/iterations/000-bootstrap/CHECKPOINT_000-001.md).
+- Iteration 001 — Foundation, см.
+  [CHECKPOINT_001-001](docs/iterations/001-foundation/CHECKPOINT_001-001.md).
 
 ---
 
@@ -44,7 +48,7 @@ Iteration 000 — Bootstrap завершена, см.
 
 ### Frontend
 
-- Nuxt 3
+- Nuxt 4
 - TypeScript
 - Nuxt UI
 - Tailwind CSS
@@ -64,4 +68,5 @@ docs/
 
 ## Status
 
-Project initialization.
+Foundation domain model (organizational structure, employees, staff
+positions, operational objects) implemented and verified end-to-end.
