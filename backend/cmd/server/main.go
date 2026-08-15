@@ -12,6 +12,7 @@ import (
 
 	"github.com/Dmitriy-495/giga-watt/backend/config"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/organization"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/position"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/database"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/httpserver"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/logger"
@@ -47,6 +48,9 @@ func main() {
 
 	organizationHandler := organization.NewHandler(organization.NewRepository(db))
 	organizationHandler.RegisterRoutes(mux)
+
+	positionHandler := position.NewHandler(position.NewRepository(db))
+	positionHandler.RegisterRoutes(mux)
 
 	srv := &http.Server{
 		Addr:    ":" + cfg.HTTP.Port,
