@@ -26,5 +26,8 @@ const { data, error, pending } = await useFetch<{ status: string }>('/api/ping',
     <p>
       <NuxtLink to="/positions">Должности</NuxtLink>
     </p>
+    <p>
+      <NuxtLink to="/employees">Сотрудники</NuxtLink>
+    </p>
   </main>
 </template>

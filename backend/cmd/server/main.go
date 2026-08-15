@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/Dmitriy-495/giga-watt/backend/config"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/employee"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/organization"
 	"github.com/Dmitriy-495/giga-watt/backend/modules/position"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/database"
@@ -51,6 +52,9 @@ func main() {
 
 	positionHandler := position.NewHandler(position.NewRepository(db))
 	positionHandler.RegisterRoutes(mux)
+
+	employeeHandler := employee.NewHandler(employee.NewRepository(db))
+	employeeHandler.RegisterRoutes(mux)
 
 	srv := &http.Server{
 		Addr:    ":" + cfg.HTTP.Port,
