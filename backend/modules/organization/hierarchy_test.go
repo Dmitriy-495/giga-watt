@@ -266,3 +266,66 @@ func TestHierarchy_SelfParent_Fails(t *testing.T) {
 		t.Fatal("expected error setting branch as its own parent, got none")
 	}
 }
+
+// TestHierarchy_CycleWalkCatchesPreexistingCycle проверяет явную защиту
+// от циклов (шаг 3 в validate_organization_unit_hierarchy) в изоляции от
+// правила "нельзя менять type узла с детьми" (шаг 2).
+//
+// В штатной работе через API оба шага срабатывают вместе — цикл,
+// найденный в ходе Foundation Hardening, перехватывается уже шагом 2,
+// поэтому шаг 3 для него избыточен (см. CHECKPOINT_001-002.md). Чтобы
+// всё же проверить именно шаг 3, тест временно отключает триггер и
+// создаёт заведомо циклические данные напрямую (имитация состояния,
+// которое могло возникнуть до фикса или при прямом вмешательстве в БД в
+// обход приложения), затем включает триггер обратно и убеждается, что
+// ЛЮБАЯ следующая запись в эти строки (даже не меняющая type/parent_id)
+// отклоняется именно проверкой цикла.
+func TestHierarchy_CycleWalkCatchesPreexistingCycle(t *testing.T) {
+	pool := testdb.Connect(t)
+	tx := testdb.WithTx(t, pool)
+	ctx := context.Background()
+
+	if _, err := tx.Exec(ctx, `
+		ALTER TABLE organization_units DISABLE TRIGGER trg_validate_organization_unit_hierarchy`,
+	); err != nil {
+		t.Fatalf("setup: disable trigger: %v", err)
+	}
+
+	var a, b int64
+
+	if err := tx.QueryRow(ctx, `
+		INSERT INTO organization_units (type, name, location, address)
+		VALUES ('institution', 'A', 'L', 'Ad') RETURNING id`,
+	).Scan(&a); err != nil {
+		t.Fatalf("setup: insert A: %v", err)
+	}
+
+	if err := tx.QueryRow(ctx, `
+		INSERT INTO organization_units (type, name, location, address, parent_id)
+		VALUES ('jks', 'B', 'L', 'Ad', $1) RETURNING id`, a,
+	).Scan(&b); err != nil {
+		t.Fatalf("setup: insert B: %v", err)
+	}
+
+	// Замыкаем цикл A <-> B в обход триггера (недостижимо иначе).
+	if _, err := tx.Exec(ctx, `
+		UPDATE organization_units SET parent_id = $1 WHERE id = $2`, b, a,
+	); err != nil {
+		t.Fatalf("setup: force cycle bypassing trigger: %v", err)
+	}
+
+	if _, err := tx.Exec(ctx, `
+		ALTER TABLE organization_units ENABLE TRIGGER trg_validate_organization_unit_hierarchy`,
+	); err != nil {
+		t.Fatalf("setup: enable trigger: %v", err)
+	}
+
+	// Тривиальное изменение: только name, type и parent_id не трогаем —
+	// правило "нельзя менять type узла с детьми" здесь ни при чём.
+	// Единственное, что может отклонить эту запись — независимая
+	// проверка цикла.
+	_, err := tx.Exec(ctx, `UPDATE organization_units SET name = 'A renamed' WHERE id = $1`, a)
+	if err == nil {
+		t.Fatal("expected the standalone cycle check to reject a write to an already-cyclic row, got none")
+	}
+}

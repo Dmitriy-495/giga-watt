@@ -98,6 +98,23 @@
       backend → frontend → тесты) проверен дважды с идентичным
       результатом
 
+### Закрытие технического долга (по решению пользователя)
+
+- [x] Down-миграции для всех 6 миграций; проверен полный и частичный
+      up/down/up цикл (включая откат `000006` к поведению `000003`)
+- [x] Regression-тест на explicit cycle-check в изоляции от
+      children-block (`TestHierarchy_CycleWalkCatchesPreexistingCycle`)
+- [x] CI (`.github/workflows/ci.yml`): build/vet/gofmt + Postgres +
+      миграции + тесты + fixtures + frontend build
+- [x] Обнаружено и задокументировано (ADR-0004, addendum): фактическое
+      минимальное требование — Go 1.25, а не 1.22.3 (предсуществующая
+      транзитивная зависимость `cleanenv → yaml.v3 → kr/pretty →
+      go-internal`, не связано с добавлением excelize)
+- [ ] `organization_units` DELETE — сознательно НЕ добавлен (требует
+      отдельного предметного решения о судьбе зависимых записей)
+- [ ] Frontend CRUD-формы — сознательно НЕ реализованы (требует
+      отдельного обсуждения стека/объёма)
+
 Подробности — `CHECKPOINT_001-002.md`.
 
 ---
