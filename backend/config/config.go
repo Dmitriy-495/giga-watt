@@ -25,6 +25,10 @@ type App struct {
 // HTTP — параметры HTTP-сервера.
 type HTTP struct {
 	Port string `env:"HTTP_PORT" env-default:"8080"`
+
+	// AllowOrigin — источник, которому разрешены CORS-запросы
+	// (frontend dev-сервер).
+	AllowOrigin string `env:"HTTP_ALLOW_ORIGIN" env-default:"http://localhost:3000"`
 }
 
 // Database — параметры подключения к PostgreSQL.

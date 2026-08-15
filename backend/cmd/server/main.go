@@ -11,7 +11,9 @@ import (
 	"time"
 
 	"github.com/Dmitriy-495/giga-watt/backend/config"
+	"github.com/Dmitriy-495/giga-watt/backend/modules/organization"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/database"
+	"github.com/Dmitriy-495/giga-watt/backend/platform/httpserver"
 	"github.com/Dmitriy-495/giga-watt/backend/platform/logger"
 )
 
@@ -43,9 +45,12 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/ping", pingHandler)
 
+	organizationHandler := organization.NewHandler(organization.NewRepository(db))
+	organizationHandler.RegisterRoutes(mux)
+
 	srv := &http.Server{
 		Addr:    ":" + cfg.HTTP.Port,
-		Handler: mux,
+		Handler: httpserver.WithCORS(cfg.HTTP.AllowOrigin, mux),
 	}
 
 	serverErr := make(chan error, 1)
