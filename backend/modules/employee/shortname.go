@@ -2,10 +2,10 @@ package employee
 
 import "strings"
 
-// buildShortName формирует сокращённое ФИО из фамилии и инициалов имени
+// BuildShortName формирует сокращённое ФИО из фамилии и инициалов имени
 // и отчества, например: "Иванов И. И." (см. ITERATION.md: "Сокращённое
 // ФИО формируется автоматически из фамилии и инициалов").
-func buildShortName(lastName, firstName, middleName string) string {
+func BuildShortName(lastName, firstName, middleName string) string {
 	short := strings.TrimSpace(lastName)
 
 	if initial := firstInitial(firstName); initial != "" {

@@ -12,12 +12,16 @@ Giga Watt — платформа цифрового двойника предп�
 
 Iteration 002 (тема согласовывается)
 
-Завершённые итерации:
+Текущая версия: `0.1.1-foundation` (см. `docs/VERSION.md`, ADR-0005).
+
+Завершённые итерации / технические проходы:
 
 - Iteration 000 — Bootstrap, см.
   [CHECKPOINT_000-001](docs/iterations/000-bootstrap/CHECKPOINT_000-001.md).
 - Iteration 001 — Foundation, см.
   [CHECKPOINT_001-001](docs/iterations/001-foundation/CHECKPOINT_001-001.md).
+- Foundation Hardening + Fixtures, см.
+  [CHECKPOINT_001-002](docs/iterations/001-foundation/CHECKPOINT_001-002.md).
 
 ---
 
@@ -49,10 +53,10 @@ Iteration 002 (тема согласовывается)
 ### Frontend
 
 - Nuxt 4
+- Vue 3
 - TypeScript
-- Nuxt UI
-- Tailwind CSS
-- Pinia
+
+(Nuxt UI / Tailwind CSS / Pinia не подключены — см. `docs/DEVELOPMENT.md`)
 
 ---
 
@@ -69,4 +73,7 @@ docs/
 ## Status
 
 Foundation domain model (organizational structure, employees, staff
-positions, operational objects) implemented and verified end-to-end.
+positions, operational objects) implemented and verified end-to-end,
+hardened against a real hierarchy-corruption defect (see
+CHECKPOINT_001-002), and reproducible via `fixtures/initial-data.xlsx`
+(see `docs/DEVELOPMENT.md`).

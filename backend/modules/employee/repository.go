@@ -144,7 +144,7 @@ type Input struct {
 // Create создаёт сотрудника. ShortName формируется автоматически из
 // фамилии и инициалов (см. shortname.go).
 func (r *Repository) Create(ctx context.Context, in Input) (*Employee, error) {
-	shortName := buildShortName(in.LastName, in.FirstName, in.MiddleName)
+	shortName := BuildShortName(in.LastName, in.FirstName, in.MiddleName)
 
 	row := r.db.QueryRow(ctx, `
 		INSERT INTO employees
@@ -167,7 +167,7 @@ func (r *Repository) Create(ctx context.Context, in Input) (*Employee, error) {
 //
 // Если сотрудник не найден, возвращается ErrNotFound.
 func (r *Repository) Update(ctx context.Context, id int64, in Input) (*Employee, error) {
-	shortName := buildShortName(in.LastName, in.FirstName, in.MiddleName)
+	shortName := BuildShortName(in.LastName, in.FirstName, in.MiddleName)
 
 	row := r.db.QueryRow(ctx, `
 		UPDATE employees SET

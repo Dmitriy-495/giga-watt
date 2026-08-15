@@ -18,6 +18,13 @@ func NewHandler(repo *Repository) *Handler {
 }
 
 // RegisterRoutes регистрирует маршруты модуля organization в мультиплексоре.
+//
+// Намеренно нет DELETE: организационная единица — структурный костяк
+// (см. docs/iterations/001-foundation/NOTES.md, Decision Log,
+// 2026-08-15), на который могут ссылаться сотрудники, штатные единицы и
+// объекты эксплуатации. Удаление без согласованного правила о судьбе
+// зависимых данных рискует осиротить их или молча потерять
+// организационную историю.
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/organization-units", h.list)
 	mux.HandleFunc("POST /api/organization-units", h.create)
